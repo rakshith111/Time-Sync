@@ -10,6 +10,7 @@ const getMethods = (obj) => {
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
+  const searchBar = document.getElementById("searchBar");
   const timezoneSelect = document.getElementById("timezoneSelect");
   const applyButton = document.getElementById("applyButton");
   const toggleButton = document.getElementById("toggleButton");
@@ -25,6 +26,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     option.value = timezone;
     option.text = timezone;
     timezoneSelect.add(option);
+  });
+
+  // Function to filter timezones based on search query
+  function filterTimezones(searchQuery) {
+    const filteredTimezones = timezones.filter((timezone) =>
+      timezone.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    timezoneSelect.innerHTML = "";
+
+    filteredTimezones.forEach((timezone) => {
+      const option = document.createElement("option");
+      option.value = timezone;
+      option.text = timezone;
+      timezoneSelect.add(option);
+    });
+  }
+
+  // Handle search input
+  searchBar.addEventListener("input", (event) => {
+    filterTimezones(event.target.value);
   });
 
   // Load the saved selected timezone and toggle state
@@ -47,6 +68,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.log(`Current time in ${selectedTimezone}: ${currentTime}`);
 
     // Save the selected timezone
+
     await browser.storage.local.set({ selectedTimezone });
   });
 
