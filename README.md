@@ -1,5 +1,20 @@
 ## A FireFox Plugin to Automatically Convert any timezone/format on page to Local time 
 
+# :warning: Still under development :warning:
+### Currently available features
+- [x] Choose any timezone (Toggled)
+- [x] Choose local timezones (BY DEFAULT)
+- [x] List all timezones
+- [x] Search for timezone (Can double click to select)
+### Features to be added
+- [ ] Choose any format (Toggled)
+- [ ] Choose local formats (BY DEFAULT)
+- [ ] List all formats
+- [ ] Search for format (Can double click to select)
+- [ ] Regex to parse any format
+- [ ] Regex to parse any timezone
+- [ ] Regex to parse any format and timezone
+- [ ] Auto convert date by default (Toggled)
 
 ### LIBRARIES USED
 [DayJS](https://day.js.org/) - A lightweight JavaScript library for parsing, validating, manipulating, and formatting dates.<br>
