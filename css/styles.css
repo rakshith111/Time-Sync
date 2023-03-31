@@ -7,7 +7,7 @@ h1 {
   text-shadow: 2px 2px 2px #000;
 }
 span {
-  color: #b8c504;
+  color: burlywood;
   font-size: 20px;
   font-family: "Times New Roman", Times, serif;
   font-weight: bold;
@@ -52,6 +52,10 @@ span {
 
 input:checked + .slider {
   background-color: #2196f3;
+}
+#searchAndDropdownContainer {
+  display: flex;
+  flex-direction: column;
 }
 
 input:focus + .slider {

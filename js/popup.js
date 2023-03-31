@@ -13,10 +13,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   const currentTimezoneElement = document.getElementById("currentTimezone");
   const searchBar = document.getElementById("searchBar");
   const timezoneSelect = document.getElementById("timezoneSelect");
-  const applyButton = document.getElementById("applyButton");
   const toggleButton = document.getElementById("toggleButton");
-  const searchAndSelect = document.getElementById("searchAndSelect");
-
+  const searchAndSelect = document.getElementById("searchAndDropdownContainer");
+  const toggleText = document.getElementById("toggleText");
+  timezoneSelect.size = 10; // Set the default size of the dropdown list
   let currentSelectedTimezone = moment.tz.guess();
   currentTimezoneElement.textContent = `Current timezone: ${currentSelectedTimezone}`;
 
@@ -65,13 +65,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
   if (savedSettings.toggleState !== undefined) {
     toggleButton.checked = savedSettings.toggleState;
-    searchAndSelect.style.display = savedSettings.toggleState
-      ? "none"
-      : "block";
+    searchAndSelect.style.display = savedSettings.toggleState ? "none" : "flex";
+    toggleText.textContent = savedSettings.toggleState
+      ? "Local timezone"
+      : "User-selected timezone";
   }
 
-  // Apply selected timezone and log the current time
-  applyButton.addEventListener("click", async () => {
+  // Handle timezone selection by double click
+  timezoneSelect.addEventListener("dblclick", async () => {
     currentSelectedTimezone = timezoneSelect.value;
     currentTimezoneElement.textContent = `Current timezone: ${currentSelectedTimezone}`;
 
@@ -79,6 +80,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     await browser.storage.local.set({
       selectedTimezone: currentSelectedTimezone,
     });
+
+    // Close the dropdown list
+    timezoneSelect.size = 10;
   });
 
   // Handle the toggle switch
@@ -89,15 +93,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (toggleState) {
       currentSelectedTimezone = moment.tz.guess();
       currentTimezoneElement.textContent = `Current timezone: ${currentSelectedTimezone}`;
-      console.log("Toggled to User Time Zone:", moment.tz.guess());
       searchAndSelect.style.display = "none";
+      toggleText.textContent = "Local timezone";
+
+      console.log("Toggled to User Time Zone:", moment.tz.guess());
     } else {
-      searchAndSelect.style.display = "block";
-  
-      const selectedTimezone = timezoneSelect.value;
-      console.log(
-        `Toggled to switch to Selected Time Zone: ${selectedTimezone}`
-      );
+      searchAndSelect.style.display = "flex";
+      toggleText.textContent = "User-selected timezone";
+      console.log(`Toggled  to Selected Time Zone`);
     }
   });
 });
