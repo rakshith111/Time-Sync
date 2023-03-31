@@ -1,0 +1,28 @@
+{
+  "manifest_version": 2,
+  "name": "Time-Sync",
+  "version": "1.0",
+
+  "description": "Convert dates and times to the user's preferred time zone and format",
+  "permissions": ["activeTab", "storage", "<all_urls>"],
+
+  "browser_action": {
+    "default_icon": "icons/update-time-48.png",
+    "default_popup": "html/popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": [
+        "js/dayjs.min.js",
+        "js/dayjs-utc.min.js",
+        "js/dayjs-timezone.min.js",
+        "js/dayjs-localizedFormat.js",
+        "js/moment.min.js",
+        "js/moment-timezone.js",
+        "js/moment-timezone-with-data-1970-2030.js",
+        "js/popup.js"
+      ]
+    }
+  ]
+}
