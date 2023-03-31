@@ -1,32 +1,32 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" href="../css/styles.css" />
-  </head>
-  <body>
-    <span>Toggle to user's timezone</span>
-    <br />
-    <br />
-    <label class="switch">
-      <input type="checkbox" id="toggleButton" checked />
-      <span class="slider round"></span>
-    </label>
-    <br />
-
-    <h1>Select Timezone</h1>
-    <input type="text" id="searchBar" placeholder="Search for a timezone" />
+<head>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <h1>Select Timezone</h1>
+  <p id="currentTimezone">Current timezone: </p>
+  <div id="searchAndSelect" style="display: none;">
+    <input type="text" id="searchBar" placeholder="Search for a timezone">
     <select id="timezoneSelect">
       <!-- Timezones will be populated here -->
     </select>
-    <button id="applyButton">Apply</button>
+  </div>
+  <button id="applyButton">Apply</button>
+  <br>
+  <label class="switch">
+    <input type="checkbox" id="toggleButton" checked>
+    <span class="slider round"></span>
+  </label>
+  <span>Toggle to user's timezone</span>
 
-    <script src="../js/dayjs.min.js"></script>
-    <script src="../js/dayjs-utc.min.js"></script>
-    <script src="../js/dayjs-timezone.min.js"></script>
-    <script src="../js/dayjs-localizedFormat.js"></script>
-    <script src="../js/moment.min.js"></script>
-    <script src="../js/moment-timezone.js"></script>
-    <script src="../js/moment-timezone-with-data-1970-2030.js"></script>
-    <script src="../js/popup.js"></script>
-  </body>
+  <script src="../js/dayjs.min.js"></script>
+  <script src="../js/dayjs-utc.min.js"></script>
+  <script src="../js/dayjs-timezone.min.js"></script>
+  <script src="../js/dayjs-localizedFormat.js"></script>
+  <script src="../js/moment.min.js"></script>
+  <script src="../js/moment-timezone.js"></script>
+  <script src="../js/moment-timezone-with-data-1970-2030.js"></script>
+  <script src="../js/popup.js"></script>
+</body>
 </html>

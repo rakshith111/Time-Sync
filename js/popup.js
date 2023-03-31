@@ -10,10 +10,15 @@ const getMethods = (obj) => {
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
+  const currentTimezoneElement = document.getElementById("currentTimezone");
   const searchBar = document.getElementById("searchBar");
   const timezoneSelect = document.getElementById("timezoneSelect");
   const applyButton = document.getElementById("applyButton");
   const toggleButton = document.getElementById("toggleButton");
+  const searchAndSelect = document.getElementById("searchAndSelect");
+
+  let currentSelectedTimezone = moment.tz.guess();
+  currentTimezoneElement.textContent = `Current timezone: ${currentSelectedTimezone}`;
 
   dayjs.extend(window.dayjs_plugin_timezone);
   dayjs.extend(window.dayjs_plugin_utc);
@@ -46,6 +51,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Handle search input
   searchBar.addEventListener("input", (event) => {
     filterTimezones(event.target.value);
+    timezoneSelect.size = timezones.length > 10 ? 10 : timezones.length;
   });
 
   // Load the saved selected timezone and toggle state
@@ -54,22 +60,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     "toggleState",
   ]);
   if (savedSettings.selectedTimezone) {
-    timezoneSelect.value = savedSettings.selectedTimezone;
+    currentSelectedTimezone = savedSettings.selectedTimezone;
+    currentTimezoneElement.textContent = `Current timezone: ${currentSelectedTimezone}`;
   }
   if (savedSettings.toggleState !== undefined) {
     toggleButton.checked = savedSettings.toggleState;
+    searchAndSelect.style.display = savedSettings.toggleState
+      ? "none"
+      : "block";
   }
 
   // Apply selected timezone and log the current time
   applyButton.addEventListener("click", async () => {
-    const selectedTimezone = timezoneSelect.value;
-    const currentTime = dayjs().tz(selectedTimezone).format("L LT");
-    console.log("original time", dayjs().format("L LT"));
-    console.log(`Current time in ${selectedTimezone}: ${currentTime}`);
+    currentSelectedTimezone = timezoneSelect.value;
+    currentTimezoneElement.textContent = `Current timezone: ${currentSelectedTimezone}`;
 
     // Save the selected timezone
-
-    await browser.storage.local.set({ selectedTimezone });
+    await browser.storage.local.set({
+      selectedTimezone: currentSelectedTimezone,
+    });
   });
 
   // Handle the toggle switch
@@ -78,8 +87,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     await browser.storage.local.set({ toggleState });
 
     if (toggleState) {
+      currentSelectedTimezone = moment.tz.guess();
+      currentTimezoneElement.textContent = `Current timezone: ${currentSelectedTimezone}`;
       console.log("Toggled to User Time Zone:", moment.tz.guess());
+      searchAndSelect.style.display = "none";
     } else {
+      searchAndSelect.style.display = "block";
+  
       const selectedTimezone = timezoneSelect.value;
       console.log(
         `Toggled to switch to Selected Time Zone: ${selectedTimezone}`
