@@ -1,20 +1,54 @@
-// Define the regex pattern to extract date time values
-const dateTimePattern = /\d{4}-\d{2}-\d{2}[T\s]\d{2}:\d{2}:\d{2}/g;
+browser.runtime.onMessage.addListener((message) => {
+  if (message.command === "convertTime") {
+    const { selectedText, targetTimezone } = message;
 
-// Extract all date time values from the page's HTML
-const extractedDateTimeValues =
-  document.documentElement.innerHTML.match(dateTimePattern);
+    try {
+      const formats = [
+        "LLLL",
+        "YYYY-MM-DD HH:mm",
+        "YYYY-MM-DD h:mm A",
+        "MMM D, YYYY h:mm A",
+        "D MMM YYYY HH:mm",
+      ];
 
-if (extractedDateTimeValues) {
-  // Process each date time value and send it to Day.js
-  extractedDateTimeValues.forEach((dateTimeValue) => {
-    const dayjsDateTime = dayjs(dateTimeValue);
+      const parsedDate = moment.tz(selectedText, formats, true, targetTimezone);
 
-    // Log the processed date time value
-    console.log(
-      `Original: ${dateTimeValue} | Day.js: ${dayjsDateTime.toString()}`
+      if (!parsedDate.isValid()) {
+        throw new Error("Invalid date format");
+      }
+      console.log(parsedDate);
+      const localDate = parsedDate.clone().tz(targetTimezone).format("LLLL");
+      replaceSelectedText(localDate);
+    } catch (error) {
+      alert(
+        "Cannot convert the selected date/time. Please make sure the format is correct."
+      );
+    }
+  }
+});
+
+function replaceSelectedText(replacementText) {
+  const activeEl = document.activeElement;
+  const sel = window.getSelection();
+  const range = sel.getRangeAt(0);
+  range.deleteContents();
+  const textNode = document.createTextNode(replacementText);
+  range.insertNode(textNode);
+
+  if (
+    activeEl instanceof HTMLInputElement ||
+    activeEl instanceof HTMLTextAreaElement
+  ) {
+    const startPos = activeEl.selectionStart;
+    const endPos = activeEl.selectionEnd;
+    activeEl.value =
+      activeEl.value.substring(0, startPos) +
+      replacementText +
+      activeEl.value.substring(endPos, activeEl.value.length);
+    activeEl.setSelectionRange(
+      startPos + replacementText.length,
+      startPos + replacementText.length
     );
-  });
-} else {
-  console.log("No date time values found on this page.");
+  }
 }
+console.log("content script loaded");
