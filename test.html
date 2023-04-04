@@ -1,21 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Test Dates</title>
-</head>
-<body>
-  <h1>Test Dates</h1>
-  <p>Monday, June 5, 2023 12:00PM EDT</p>
-  <p>2023-06-05T12:00:00-04:00</p>
-  <p>June 5th 2023, 12:00:00 pm EDT</p>
-  <p>2023-06-05 12:00:00 EDT</p>
-  <p>2023/06/05 12:00 PM EDT</p>
-  <p>5 June 2023 12:00:00 EDT</p>
-  <p>5 Jun 2023 12:00:00 PM EDT</p>
-  <p>2023.06.05 12:00:00 EDT</p>
-  <p>June 5, 2023, 12:00 PM, EDT</p>
-  <p>5th of June, 2023, 12:00:00 PM EDT</p>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Random Content</title>
+    <style>
+      div {
+        margin: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="js/chrono-b.js"></script>
+    <script src="js/compromise.min.js"></script>
+    <script src="js/compromise-dates.js"></script>
+    <script>
+      const nlpDates = window.nlp.extend(window.compromiseDates);
+      const chrono = window.chrono;
+    </script>
+    <script>
+      async function findDatesInPage() {
+        const bodyTextContent = document.body.textContent;
+        const potentialDates = findPotentialDates(bodyTextContent);
+        const parsedDates = [];
+        for (const date of potentialDates) {
+          const parsedResult = chrono.chrono.parseDate(date.text);
+          if (parsedResult != null) {
+            parsedDates.push({
+              original: date.text,
+              parsed: parsedResult.toString(),
+            });
+          }
+        }
+        return potentialDates;
+      }
+      function findPotentialDates(text) {
+        const nlpResult = nlp(text).dates().json();
+        return nlpResult;
+      }
+    </script>
+
+    <div>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel
+        justo tincidunt, commodo massa in, ullamcorper quam. Vivamus id suscipit
+        nunc. Pellentesque habitant morbi tristique senectus et netus et
+        malesuada fames ac turpis egestas. Sed posuere odio id quam fringilla,
+        in posuere lacus suscipit.
+      </p>
+    </div>
+    <div>
+      <p>
+        Nullam ultricies, massa vel laoreet imperdiet, orci arcu finibus metus,
+        ac bibendum odio libero vel orci. Sed auctor lectus urna, et blandit
+        dolor bibendum in. Pellentesque at metus eu odio ultrices tristique a
+        nec elit.
+      </p>
+      <p>
+        Here's a date in the ISO 8601 format:
+        <strong>2023-04-04T08:30:00+02:00</strong>
+      </p>
+    </div>
+    <div>
+      <p>
+        Etiam scelerisque justo ut tincidunt cursus. Suspendisse mollis
+        consequat tempor. Proin suscipit dapibus sagittis. Fusce sed justo ac
+        sapien scelerisque porttitor. Integer mollis, justo a scelerisque
+        condimentum, lectus mi tempus odio, eget ultricies odio urna vel turpis.
+        Nullam et diam euismod, lacinia ante a, vehicula enim.
+      </p>
+      <p>
+        Here's a date in the American format with a time zone abbreviation:
+        <strong>April 4, 2023 8:30 AM PDT</strong>
+      </p>
+    </div>
+    <div>
+      <p>
+        Phasellus et est nec est consequat laoreet. Pellentesque habitant morbi
+        tristique senectus et netus et malesuada fames ac turpis egestas. In nec
+        dui vehicula, convallis ipsum in, fringilla elit. In ullamcorper
+        consequat justo, ut consequat libero ultricies ut.
+      </p>
+      <p>
+        Here's a date in the European format with a GMT offset:
+        <strong>04/04/2023 08:30 (GMT+2)</strong>
+      </p>
+    </div>
+    <div>
+      <p>
+        Donec bibendum, elit nec facilisis egestas, est nisi lobortis metus, et
+        aliquam urna metus et neque. Morbi dapibus consequat fermentum. Quisque
+        quis tortor id orci venenatis porta. Proin ut magna sit amet odio
+        porttitor pharetra a ut odio. Sed ut sem et odio elementum tincidunt.
+      </p>
+    </div>
+    <script>
+      findDatesInPage();
+    </script>
+  </body>
 </html>
