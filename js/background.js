@@ -17,9 +17,9 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
     ]);
 
     const currentSelectedTimezone =
-      settings.toggleState || settings.toggleState === undefined
-        ? moment.tz.guess()
-        : settings.selectedTimezone || moment.tz.guess();
+      settings.toggleState === false || settings.toggleState === undefined
+        ? settings.selectedTimezone || luxon.DateTime.local().zoneName
+        : luxon.DateTime.local().zoneName;
 
     browser.tabs.sendMessage(tab.id, {
       command: "convertDateTime",

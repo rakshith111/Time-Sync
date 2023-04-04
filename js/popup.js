@@ -20,10 +20,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   let currentSelectedTimezone = moment.tz.guess();
   currentTimezoneElement.textContent = `Current timezone: ${currentSelectedTimezone}`;
 
-  dayjs.extend(window.dayjs_plugin_timezone);
-  dayjs.extend(window.dayjs_plugin_utc);
-  dayjs.extend(window.dayjs_plugin_localizedFormat);
-
   // Populate the timezone select element
   const timezones = moment.tz.names();
   timezones.forEach((timezone) => {
@@ -96,7 +92,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       searchAndSelect.style.display = "none";
       toggleText.textContent = "Local timezone";
 
-      console.log("Toggled to User Time Zone:", moment.tz.guess());
+      console.log("Toggled to User Time Zone:", currentSelectedTimezone);
     } else {
       searchAndSelect.style.display = "flex";
       toggleText.textContent = "User-selected timezone";
