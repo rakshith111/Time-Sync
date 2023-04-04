@@ -53,11 +53,6 @@ span {
 input:checked + .slider {
   background-color: #2196f3;
 }
-#searchAndDropdownContainer {
-  display: flex;
-  flex-direction: column;
-}
-
 input:focus + .slider {
   box-shadow: 0 0 1px #2196f3;
 }
@@ -75,4 +70,9 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+/* DO NOT EDIT BELOW THIS LINE */
+#searchAndDropdownContainer {
+  display: flex;
+  flex-direction: column;
 }
