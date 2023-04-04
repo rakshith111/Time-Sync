@@ -11,13 +11,9 @@
   },
   "background": {
     "scripts": [
+      "js/luxon.js",
       "js/moment.min.js",
-      "js/moment-timezone.js",
       "js/moment-timezone-with-data-1970-2030.js",
-      "js/dayjs.min.js",
-      "js/dayjs-utc.min.js",
-      "js/dayjs-timezone.min.js",
-      "js/dayjs-localizedFormat.js",
       "js/background.js"
     ]
   },
@@ -25,14 +21,10 @@
     {
       "matches": ["<all_urls>"],
       "js": [
-        "js/moment.min.js",
-        "js/moment-timezone.js",
-        "js/moment-timezone-with-data-1970-2030.js",
-        "js/dayjs.min.js",
-        "js/dayjs-utc.min.js",
-        "js/dayjs-timezone.min.js",
-        "js/dayjs-localizedFormat.js",
+        "js/luxon.js",
         "js/chrono-b.js",
+        "js/moment.min.js",
+        "js/moment-timezone-with-data-1970-2030.js",
         "js/content.js",
         "js/popup.js"
       ]
