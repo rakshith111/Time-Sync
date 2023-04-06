@@ -14,11 +14,35 @@ document.addEventListener("DOMContentLoaded", async () => {
   const searchBar = document.getElementById("searchBar");
   const timezoneSelect = document.getElementById("timezoneSelect");
   const toggleButton = document.getElementById("toggleButton");
+
   const searchAndSelect = document.getElementById("searchAndDropdownContainer");
   const toggleText = document.getElementById("toggleText");
   timezoneSelect.size = 10; // Set the default size of the dropdown list
   let currentSelectedTimezone = moment.tz.guess();
   currentTimezoneElement.textContent = `Current timezone: ${currentSelectedTimezone}`;
+  const autoDateConvertToggle = document.getElementById(
+    "autoDateConvertToggle"
+  );
+
+  // Load the saved auto-date conversion state
+  const savedAutoDateConvertState = await browser.storage.local.get([
+    "autoDateConvertState",
+  ]);
+  if (savedAutoDateConvertState.autoDateConvertState !== undefined) {
+    autoDateConvertToggle.checked =
+      savedAutoDateConvertState.autoDateConvertState;
+  }
+
+  // Handle the auto-date conversion toggle switch
+  autoDateConvertToggle.addEventListener("change", async (event) => {
+    const autoDateConvertState = event.target.checked;
+
+    await browser.storage.local.set({ autoDateConvertState });
+    browser.tabs.sendMessage(tabs[0].id, {
+      command: "setTargetTimezone",
+      targetTimezone: currentSelectedTimezone,
+    });
+  });
 
   // Populate the timezone select element
   const timezones = moment.tz.names();
