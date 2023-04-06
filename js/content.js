@@ -1,74 +1,21 @@
 let targetTimezone;
 (async function () {
-  console.log("Content script loaded");
-  function findPotentialDates(text) {
-    const nlpResult = nlp(text).dates().json();
-    return nlpResult;
+  const settings = await browser.storage.local.get(["autoDateConvertState"]);
+  targetTimezone = await browser.storage.local.get(["selectedTimezone"]);
+  if (targetTimezone.selectedTimezone === undefined) {
+    targetTimezone = moment.tz.guess();
+  } else {
+    targetTimezone = targetTimezone.selectedTimezone;
   }
-
-  async function findAndReplaceDates(targetTimezone) {
-    if (!targetTimezone) {
-      targetTimezone = moment.tz.guess();
-      console.log("TimeZone not provided:", targetTimezone);
-    }
-
-    const bodyTextContent = document.body.textContent;
-    const potentialDates = findPotentialDates(bodyTextContent);
-    console.log("Potential dates: ", potentialDates);
-
-    for (const date of potentialDates) {
-      const original = date.text;
-      const parsedResult = chrono.chrono.parseDate(original);
-
-      if (
-        parsedResult != null &&
-        !document.querySelector(`[data-original="${original}"]`)
-      ) {
-        var local = luxon.DateTime.local();
-        var rezoned = local.setZone(targetTimezone, {
-          keepLocalTime: true,
-        });
-        var parsedDate = moment(parsedResult)
-          .tz(targetTimezone)
-          .format("dddd, MMMM D, YYYY, h:mm a Z");
-        parsedDate += " (" + firstLettersCaps(rezoned.offsetNameLong) + ")";
-
-        const newText = `${parsedDate}`;
-
-        const textNodes = getTextNodes(document.body);
-        for (const node of textNodes) {
-          if (node.textContent.includes(original)) {
-            const newNodeValue = node.textContent.replace(original, "");
-            const replacedDateSpan = document.createElement("span");
-            replacedDateSpan.className = "replaced-date";
-            replacedDateSpan.textContent = newText;
-            replacedDateSpan.dataset.original = original;
-            replacedDateSpan.dataset.parsed = newText;
-
-            node.parentNode.insertBefore(replacedDateSpan, node.nextSibling);
-            node.textContent = newNodeValue;
-          }
-        }
-      }
-    }
+  if (
+    settings.autoDateConvertState === undefined ||
+    settings.autoDateConvertState
+  ) {
+    console.log("Auto-date converter is enabled");
+    await findAndReplaceDates();
+  } else {
+    console.log("Auto-date converter is disabled");
   }
-
-  function getTextNodes(node) {
-    const allNodes = [];
-    const iterator = document.createNodeIterator(
-      node,
-      NodeFilter.SHOW_TEXT,
-      null
-    );
-
-    let currentNode;
-    while ((currentNode = iterator.nextNode())) {
-      allNodes.push(currentNode);
-    }
-
-    return allNodes;
-  }
-
   const style = document.createElement("style");
   style.textContent = `
   .replaced-date {
@@ -98,49 +45,23 @@ let targetTimezone;
   }
 `;
   document.head.appendChild(style);
-
-  const settings = await browser.storage.local.get(["autoDateConvertState"]);
-  if (
-    settings.autoDateConvertState === undefined ||
-    settings.autoDateConvertState
-  ) {
-    console.log("Auto-date converter is enabled");
-    findAndReplaceDates();
-  } else {
-    console.log("Auto-date converter is disabled");
-  }
+  console.log("Content script loaded");
 })();
-browser.runtime.onMessage.addListener(async (message) => {
-  if (message.command === "setTargetTimezone") {
-    targetTimezone = message.targetTimezone;
-    console.log("Received target timezone: ", targetTimezone);
+function getTextNodes(node) {
+  const allNodes = [];
+  const iterator = document.createNodeIterator(
+    node,
+    NodeFilter.SHOW_TEXT,
+    null
+  );
 
-    await findAndReplaceDates(targetTimezone);
+  let currentNode;
+  while ((currentNode = iterator.nextNode())) {
+    allNodes.push(currentNode);
   }
-  if (message.command === "convertDateTime") {
-    console.log("Received message from background script: ", message);
-    const selectedText = message.text;
-    const targetTimezone = message.targetTimezone;
-    const parsedResult = chrono.chrono.parse(selectedText);
-    var local = luxon.DateTime.local();
-    var rezoned = local.setZone(targetTimezone, { keepLocalTime: true });
-    if (parsedResult.length > 0) {
-      const parsedDate = parsedResult[0].start.date();
-      var dateInTargetTimezone = moment(parsedDate)
-        .tz(targetTimezone)
-        .format("dddd, MMMM D, YYYY, h:mm a Z");
-      dateInTargetTimezone +=
-        " (" + firstLettersCaps(rezoned.offsetNameLong) + ")";
-      // Replace the selected text with the converted date and time
-      document.getSelection().getRangeAt(0).deleteContents();
-      const newText = document.createTextNode(dateInTargetTimezone);
-      document.getSelection().getRangeAt(0).insertNode(newText);
-    } else {
-      alert("Error: Unable to parse the selected date and time.");
-    }
-  }
-});
 
+  return allNodes;
+}
 function firstLettersCaps(input) {
   // Return the first letter of each word in a string in uppercase For getting the timezone name in the format "PDT (Pacific Daylight Time)"
   return input
@@ -148,3 +69,102 @@ function firstLettersCaps(input) {
     .map((word) => word.charAt(0).toUpperCase())
     .join("");
 }
+function findPotentialDates(text) {
+  const chronoDates = chrono.chrono.parse(text);
+  const potentialDates = [];
+
+  chronoDates.forEach((dateObj) => {
+    const dateText = text.slice(
+      dateObj.index,
+      dateObj.index + dateObj.text.length
+    );
+    if (!dateText.match(/\d{4},\s\d{1,2}:\d{2}\s[ap]m/i)) {
+      const nlpDate = nlp(dateText).match("#Date+").out("json");
+      if (nlpDate.length > 0) {
+        potentialDates.push(nlpDate[0]);
+      }
+    }
+  });
+
+  return potentialDates;
+}
+function isAlreadyParsed(dateText) {
+  return !!document.querySelector(`[data-original="${dateText}"]`);
+}
+
+function createReplacedDateSpan(original, newText) {
+  const replacedDateSpan = document.createElement("span");
+  replacedDateSpan.className = "replaced-date";
+  replacedDateSpan.textContent = newText;
+  replacedDateSpan.dataset.original = original;
+  replacedDateSpan.dataset.parsed = newText;
+  return replacedDateSpan;
+}
+function wrapSelectedTextWithHover(original, newText) {
+  const selection = document.getSelection();
+  const range = selection.getRangeAt(0);
+  const replacedDateSpan = createReplacedDateSpan(original, newText);
+  range.deleteContents();
+  range.insertNode(replacedDateSpan);
+}
+function getParsedDateInTargetTimezone(parsedResult) {
+  var local = luxon.DateTime.local();
+  var rezoned = local.setZone(targetTimezone, {
+    keepLocalTime: true,
+  });
+  var parsedDate = moment(parsedResult)
+    .tz(targetTimezone)
+    .format("MMMM D,dddd, YYYY, h:mm a Z");
+  parsedDate += " (" + firstLettersCaps(rezoned.offsetNameLong) + ")";
+  console.log("Parsed date: ", parsedDate);
+  return parsedDate;
+}
+async function findAndReplaceDates(targetTimezone) {
+  const bodyTextContent = document.body.textContent;
+  const potentialDates = findPotentialDates(bodyTextContent);
+  console.log("Potential dates: ", potentialDates);
+  for (const date of potentialDates) {
+    if (date.text.length >= 10) {
+      const original = date.text;
+
+      if (isAlreadyParsed(original)) {
+        console.log("Already parsed: ", original);
+        continue;
+      }
+
+      const parsedDateInTargetTimezone =
+        getParsedDateInTargetTimezone(original);
+      const newText = `${parsedDateInTargetTimezone}`;
+
+      const textNodes = getTextNodes(document.body);
+      for (const node of textNodes) {
+        if (node.textContent.includes(original)) {
+          const newNodeValue = node.textContent.replace(original, "");
+          const replacedDateSpan = createReplacedDateSpan(original, newText);
+          node.parentNode.insertBefore(replacedDateSpan, node.nextSibling);
+          node.textContent = newNodeValue;
+        }
+      }
+    }
+  }
+}
+
+browser.runtime.onMessage.addListener(async (message) => {
+  if (message.command === "setTargetTimezone") {
+    targetTimezone = message.targetTimezone;
+    console.log("Received target timezone: ", targetTimezone);
+    await findAndReplaceDates();
+  }
+  if (message.command === "convertDateTime") {
+    console.log("Received message from background script: ", message);
+    const selectedText = message.text;
+    const parsedResult = chrono.chrono.parse(selectedText);
+    if (parsedResult.length > 0) {
+      const parsedDate = parsedResult[0].start.date();
+      const dateInTargetTimezone = getParsedDateInTargetTimezone(parsedDate);
+      wrapSelectedTextWithHover(selectedText, dateInTargetTimezone);
+    } else {
+      alert("Error: Unable to parse the selected date and time.");
+    }
+  }
+});
