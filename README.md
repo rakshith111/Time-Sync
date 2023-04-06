@@ -5,7 +5,7 @@
 As of now, the plugin is not available on the Firefox Addons Store. You can install it by downloading the source code and loading it as a temporary addon.
 here's how you can do it:
 
-1. Download the source code from [here](https://github.com/rakshith111/Time-Sync)
+1. Download the source code from [here](https://github.com/rakshith111/Time-Sync/archive/refs/heads/main.zip)
 2. Extract the zip file
 3. Open Firefox and type `about:debugging` in the address bar
 4. Click on `This Firefox` in the left sidebar
@@ -31,11 +31,12 @@ here's how you can do it:
 - [x] List all timezones
 - [x] Search for timezone (Can double click to select)
 - [x] Parse any format, timezone and convert to local timezone and format
-      <s>
+<s>
 - [ ] Regex to parse any format <br>
 - [ ] Regex to parse any timezone <br>
 - [ ] Regex to parse any format and timezone <br>
-      </s>
+ </s><br>
+ 
 - [x] Right click to convert date by default
 - [x] Auto convert date by default (Toggled)
 
@@ -56,11 +57,12 @@ here's how you can do it:
 
 ---
 
-### CURRENT ISSUES
+### CURRENT ISSUES :warning:
 
-- [ ] The plugin works on all pages, I've whitelisted only a few heavy pages for now will add a whitelist option in the future
-- [ ] Not sure if the autoconvert feature works on pages that use `iframe` or `frame` tags
-- [ ] The plugin also edits the `inline code` in StackOverflow, I'm working on a fix for this
+- [x] The plugin works on all pages, I've whitelisted only a few heavy pages for now will add a whitelist option in the future
+- [x] Not sure if the autoconvert feature works on pages that use `iframe` or `frame` tags
+- [x] The plugin also edits the `inline code` in StackOverflow, I'm working on a fix for this
+- [x] Due to the nature of the nlp lib I've used it sometimes parses the normal text, working on improving the nlp processing 
 
 ### ICONS USED
 
