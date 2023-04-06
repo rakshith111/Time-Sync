@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const autoDateConvertToggle = document.getElementById(
     "autoDateConvertToggle"
   );
-
+  searchAndSelect.style.display = "none";
   // Load the saved auto-date conversion state
   const savedAutoDateConvertState = await browser.storage.local.get([
     "autoDateConvertState",
@@ -52,7 +52,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     option.text = timezone;
     timezoneSelect.add(option);
   });
-
   // Function to filter timezones based on search query
   function filterTimezones(searchQuery) {
     const filteredTimezones = timezones.filter((timezone) =>
@@ -122,5 +121,39 @@ document.addEventListener("DOMContentLoaded", async () => {
       toggleText.textContent = "User-selected timezone";
       console.log(`Toggled  to Selected Time Zone`);
     }
+  });
+
+  const themeToggle = document.getElementById("themeToggle");
+
+  // Load the saved dark mode state
+  const savedDarkModeState = await browser.storage.local.get(["darkModeState"]);
+  if (savedDarkModeState.darkModeState !== undefined) {
+    themeToggle.checked = savedDarkModeState.darkModeState;
+    if (themeToggle.checked) {
+      document.body.classList.add("dark-mode");
+      document.getElementById("lightModeIcon").style.display = "none";
+      document.getElementById("darkModeIcon").style.display = "inline-block";
+    } else {
+      document.body.classList.remove("dark-mode");
+      document.getElementById("lightModeIcon").style.display = "inline-block";
+      document.getElementById("darkModeIcon").style.display = "none";
+    }
+  }
+
+  themeToggle.addEventListener("change", async (event) => {
+    const darkModeState = event.target.checked;
+
+    if (darkModeState) {
+      document.body.classList.add("dark-mode");
+      document.getElementById("lightModeIcon").style.display = "none";
+      document.getElementById("darkModeIcon").style.display = "inline-block";
+    } else {
+      document.body.classList.remove("dark-mode");
+      document.getElementById("lightModeIcon").style.display = "inline-block";
+      document.getElementById("darkModeIcon").style.display = "none";
+    }
+
+    // Save the dark mode state to local storage
+    await browser.storage.local.set({ darkModeState });
   });
 });
