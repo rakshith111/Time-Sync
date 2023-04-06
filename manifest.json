@@ -48,6 +48,17 @@
         "js/content.js",
         "js/popup.js"
       ]
+    },
+    {
+      "matches": ["<all_urls>"],
+      "js": [
+        "js/compromise-b.js",
+        "js/luxon.js",
+        "js/chrono-b.js",
+        "js/moment.min.js",
+        "js/moment-timezone-with-data-1970-2030.js",
+        "js/content-manual.js"
+      ]
     }
   ]
 }
