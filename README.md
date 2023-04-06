@@ -66,5 +66,6 @@ here's how you can do it:
 
 ### ICONS USED
 
-<a href="https://iconscout.com/icons/update-time" target="_blank">Update Time Icon(LIGHT)</a> by <a href="https://iconscout.com/contributors/zolute">Zolute Technology and Consulting Pvt Ltd</a> on <a href="https://iconscout.com">IconScout</a><br>
-<a href="https://iconscout.com/icons/update-time" target="_blank">Update Time Icon(DARK)</a> by <a href="https://iconscout.com/contributors/zolute">Zolute Technology and Consulting Pvt Ltd</a> on <a href="https://iconscout.com">IconScout</a>
+<a href="https://www.flaticon.com/free-icons/working-hours" title="working hours icons">Working hours icons created by Maan Icons - Flaticon</a> <br>
+<br> <a href="https://www.iconfinder.com/icons/9071418/sun_icon"> Sun icon </a> by <a href="https://www.iconfinder.com/icon-park">Kmg Design </a> <br>
+<br> <a href="https://www.iconfinder.com/icons/9071456/moon_icon"> Moon icon </a> by <a href="https://www.iconfinder.com/icon-park">Kmg Design </a> <br>
