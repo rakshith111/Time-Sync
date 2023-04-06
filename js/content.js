@@ -70,23 +70,29 @@ function firstLettersCaps(input) {
     .join("");
 }
 function findPotentialDates(text) {
-  const chronoDates = chrono.chrono.parse(text);
-  const potentialDates = [];
-
-  chronoDates.forEach((dateObj) => {
-    const dateText = text.slice(
-      dateObj.index,
-      dateObj.index + dateObj.text.length
-    );
-    if (!dateText.match(/\d{4},\s\d{1,2}:\d{2}\s[ap]m/i)) {
-      const nlpDate = nlp(dateText).match("#Date+").out("json");
-      if (nlpDate.length > 0) {
-        potentialDates.push(nlpDate[0]);
-      }
-    }
-  });
-
-  return potentialDates;
+  const nlpResult = nlp(text)
+    .not([
+      "couple",
+      "few",
+      "many",
+      "several",
+      "some",
+      "next",
+      "last",
+      "this",
+      "now",
+      "ago",
+      "future",
+      "month",
+      "year",
+      "week",
+      "today",
+      "tomorrow",
+      "yesterday",
+    ])
+    .match("#Date+")
+    .out("json");
+  return nlpResult;
 }
 function isAlreadyParsed(dateText) {
   return !!document.querySelector(`[data-original="${dateText}"]`);
@@ -115,9 +121,14 @@ function getParsedDateInTargetTimezone(parsedResult) {
   var parsedDate = moment(parsedResult)
     .tz(targetTimezone)
     .format("MMMM D,dddd, YYYY, h:mm a Z");
-  parsedDate += " (" + firstLettersCaps(rezoned.offsetNameLong) + ")";
-  console.log("Parsed date: ", parsedDate);
-  return parsedDate;
+  if (moment(parsedDate).isValid()) {
+    parsedDate += " (" + firstLettersCaps(rezoned.offsetNameLong) + ")";
+    console.log("Parsed date: ", parsedDate);
+    return parsedDate;
+  } else {
+    console.log("Parsed date is not valid");
+    return "nope";
+  }
 }
 async function findAndReplaceDates(targetTimezone) {
   const bodyTextContent = document.body.textContent;
@@ -134,16 +145,20 @@ async function findAndReplaceDates(targetTimezone) {
 
       const parsedDateInTargetTimezone =
         getParsedDateInTargetTimezone(original);
-      const newText = `${parsedDateInTargetTimezone}`;
+      if (parsedDateInTargetTimezone != "nope") {
+        const newText = `${parsedDateInTargetTimezone}`;
 
-      const textNodes = getTextNodes(document.body);
-      for (const node of textNodes) {
-        if (node.textContent.includes(original)) {
-          const newNodeValue = node.textContent.replace(original, "");
-          const replacedDateSpan = createReplacedDateSpan(original, newText);
-          node.parentNode.insertBefore(replacedDateSpan, node.nextSibling);
-          node.textContent = newNodeValue;
+        const textNodes = getTextNodes(document.body);
+        for (const node of textNodes) {
+          if (node.textContent.includes(original)) {
+            const newNodeValue = node.textContent.replace(original, "");
+            const replacedDateSpan = createReplacedDateSpan(original, newText);
+            node.parentNode.insertBefore(replacedDateSpan, node.nextSibling);
+            node.textContent = newNodeValue;
+          }
         }
+      } else {
+        console.log("Unable to parse date: ", original);
       }
     }
   }
@@ -162,7 +177,11 @@ browser.runtime.onMessage.addListener(async (message) => {
     if (parsedResult.length > 0) {
       const parsedDate = parsedResult[0].start.date();
       const dateInTargetTimezone = getParsedDateInTargetTimezone(parsedDate);
-      wrapSelectedTextWithHover(selectedText, dateInTargetTimezone);
+      if (dateInTargetTimezone != "nope") {
+        wrapSelectedTextWithHover(selectedText, dateInTargetTimezone);
+      } else {
+        alert("Error: Unable to parse the selected date and time.");
+      }
     } else {
       alert("Error: Unable to parse the selected date and time.");
     }
