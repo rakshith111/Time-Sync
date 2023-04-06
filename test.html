@@ -13,35 +13,6 @@
     </style>
   </head>
   <body>
-    <script src="js/chrono-b.js"></script>
-    <script src="js/compromise.min.js"></script>
-    <script src="js/compromise-dates.js"></script>
-    <script>
-      const nlpDates = window.nlp.extend(window.compromiseDates);
-      const chrono = window.chrono;
-    </script>
-    <script>
-      async function findDatesInPage() {
-        const bodyTextContent = document.body.textContent;
-        const potentialDates = findPotentialDates(bodyTextContent);
-        const parsedDates = [];
-        for (const date of potentialDates) {
-          const parsedResult = chrono.chrono.parseDate(date.text);
-          if (parsedResult != null) {
-            parsedDates.push({
-              original: date.text,
-              parsed: parsedResult.toString(),
-            });
-          }
-        }
-        return potentialDates;
-      }
-      function findPotentialDates(text) {
-        const nlpResult = nlp(text).dates().json();
-        return nlpResult;
-      }
-    </script>
-
     <div>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel
@@ -96,8 +67,5 @@
         porttitor pharetra a ut odio. Sed ut sem et odio elementum tincidunt.
       </p>
     </div>
-    <script>
-      findDatesInPage();
-    </script>
   </body>
 </html>

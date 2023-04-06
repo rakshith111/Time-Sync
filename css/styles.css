@@ -63,6 +63,10 @@ input:checked + .slider:before {
   transform: translateX(26px);
 }
 
+.replaced-date:hover::before {
+  display: block;
+}
+*/
 /* Rounded sliders */
 .slider.round {
   border-radius: 34px;
