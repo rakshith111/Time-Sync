@@ -56,6 +56,12 @@ here's how you can do it:
 
 ---
 
+### CURRENT ISSUES
+
+- [ ] The plugin works on all pages, I've whitelisted only a few heavy pages for now will add a whitelist option in the future
+- [ ] Not sure if the autoconvert feature works on pages that use `iframe` or `frame` tags
+- [ ] The plugin also edits the `inline code` in StackOverflow, I'm working on a fix for this
+
 ### ICONS USED
 
 <a href="https://iconscout.com/icons/update-time" target="_blank">Update Time Icon(LIGHT)</a> by <a href="https://iconscout.com/contributors/zolute">Zolute Technology and Consulting Pvt Ltd</a> on <a href="https://iconscout.com">IconScout</a><br>

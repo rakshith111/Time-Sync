@@ -21,6 +21,24 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
+      "exclude_matches": [
+        "*://*.facebook.com/*",
+        "*://*.twitter.com/*",
+        "*://*.linkedin.com/*",
+        "*://*.instagram.com/*",
+        "*://*.youtube.com/*",
+        "*://*.reddit.com/*",
+        "*://*.pinterest.com/*",
+        "*://*.tumblr.com/*",
+        "*://*.netflix.com/*",
+        "*://*.hulu.com/*",
+        "*://*.amazon.com/*",
+        "*://*.ebay.com/*",
+        "*://*.walmart.com/*",
+        "*://*.stackoverflow.com/*",
+        "*://*.github.com/*",
+        "*://*.quora.com/*"
+      ],
       "js": [
         "js/compromise-b.js",
         "js/luxon.js",
