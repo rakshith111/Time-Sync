@@ -30,7 +30,7 @@
   }
 `;
   document.head.appendChild(style);
-  console.log("Content script loaded");
+  console.log("Manual Content script loaded");
 })();
 function firstLettersCaps(input) {
   // Return the first letter of each word in a string in uppercase For getting the timezone name in the format "PDT (Pacific Daylight Time)"
@@ -66,16 +66,15 @@ browser.runtime.onMessage.addListener(async (message) => {
 
     if (parsedResult.length > 0) {
       const parsedDate = parsedResult[0].start.date();
-      console.log("Parsed date: ", parsedDate);
+
       var dateInTargetTimezone = moment(parsedDate)
         .tz(targetTimezone)
         .format("MMMM D,dddd, YYYY, h:mm a Z");
-      console.log("Date in target timezone: ", dateInTargetTimezone);
+
       dateInTargetTimezone +=
         " (" + firstLettersCaps(rezoned.offsetNameLong) + ")";
       // Replace the selected text with the converted date and time
-      console.log("Replacing selected text with: ", dateInTargetTimezone);
-      console.log("Selected text: ", selectedText);
+
       wrapSelectedTextWithHover(selectedText, dateInTargetTimezone);
     } else {
       alert("Error: Unable to parse the selected date and time.");

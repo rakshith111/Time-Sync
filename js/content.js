@@ -48,7 +48,7 @@ let targetTimezone;
 
 `;
   document.head.appendChild(style);
-  console.log("Content script loaded");
+  console.log("Auto Content script loaded");
 })();
 function getTextNodes(node) {
   const allNodes = [];
@@ -73,9 +73,7 @@ function firstLettersCaps(input) {
     .join("");
 }
 function findPotentialDates(text) {
-  const nlpResult = nlp(text)
-    .dates()
-    .out("json");
+  const nlpResult = nlp(text).dates().out("json");
   return nlpResult;
 }
 function isAlreadyParsed(dateText) {
@@ -117,7 +115,7 @@ function getParsedDateInTargetTimezone(parsedResult) {
 async function findAndReplaceDates(targetTimezone) {
   const bodyTextContent = document.body.textContent;
   const potentialDates = findPotentialDates(bodyTextContent);
-  console.log("Potential dates: ", potentialDates);
+  // console.log("Potential dates: ", potentialDates);
   for (const date of potentialDates) {
     if (date.text.length >= 10) {
       const original = date.text;
