@@ -76,6 +76,8 @@
         "*://*.squareup.com/*",
         "*://*.stackoverflow.com/*",
         "*://*.startpage.com/*",
+        "*://*.steamcommunity.com/*",
+        "*://*.steampowered.com/*",
         "*://*.swisscows.com/*",
         "*://*.target.com/*",
         "*://*.tdbank.com/*",
