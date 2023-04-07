@@ -8,19 +8,21 @@
   }
 
   .replaced-date::before {
-    content: "Original: " attr(data-original) ;
+    content: "Original: " attr(data-original);
     position: absolute;
     display: none;
-    background-color: #f51616;
+    background-color: #1f1f1f; /* Dark background for better theme matching */
     border: 1px solid #ccc;
-    padding: 8px; /* Increased padding for a larger box */
-    border-radius: 6px; /* Increased border-radius for a larger box */
-    font-size: 14px; /* Increased font-size for larger text */
+    color: #ffffff; /* White text for better visibility on dark background */
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 14px;
     white-space: nowrap;
     z-index: 10;
     bottom: calc(100% + 10px);
     left: 50%;
     transform: translateX(-50%);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Added a subtle box-shadow for depth */
   }
 
   .replaced-date:hover::before {
