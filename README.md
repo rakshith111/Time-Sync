@@ -24,6 +24,7 @@ here's how you can do it:
 - Select any text on the page and right click to convert it to local time, it will only convert if the text is a valid date
 - Hover over any text on the page to see the Original date.
 
+### The auto script wont run on pages which are excluded in the manifest as they can affect browser's performance but manual mode is allowed, so select-> convert will work
 ### Currently available features
 
 - [x] Choose any timezone (Toggled)
