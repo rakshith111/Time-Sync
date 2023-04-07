@@ -28,3 +28,4 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
     });
   }
 });
+

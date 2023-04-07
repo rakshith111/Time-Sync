@@ -138,3 +138,7 @@ select {
 #themeContainer img {
   margin-left: 150px;
 }
+
+#settingsIcon:hover {
+  cursor: pointer;
+}

@@ -9,11 +9,12 @@ const getMethods = (obj) => {
   );
 };
 
+
 document.addEventListener("DOMContentLoaded", async () => {
   const currentTimezoneElement = document.getElementById("currentTimezone");
   const searchBar = document.getElementById("searchBar");
   const timezoneSelect = document.getElementById("timezoneSelect");
-  const toggleButton = document.getElementById("toggleButton");
+  const toggleButton = document.getElementById("toggleButton");  
 
   const searchAndSelect = document.getElementById("searchAndDropdownContainer");
   const toggleText = document.getElementById("toggleText");
