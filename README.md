@@ -62,7 +62,7 @@ here's how you can do it:
 - [x] The plugin works on all pages, I've whitelisted only a few heavy pages for now will add a whitelist option in the future
 - [x] Not sure if the autoconvert feature works on pages that use `iframe` or `frame` tags
 - [x] The plugin also edits the `inline code` in StackOverflow, I'm working on a fix for this
-- [x] Due to the nature of the nlp lib I've used it sometimes parses the normal text, working on improving the nlp processing 
+- [x] More testing is required to see how the nlp libraries work on different pages
 
 ### ICONS USED
 

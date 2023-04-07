@@ -74,26 +74,7 @@ function firstLettersCaps(input) {
 }
 function findPotentialDates(text) {
   const nlpResult = nlp(text)
-    .not([
-      "couple",
-      "few",
-      "many",
-      "several",
-      "some",
-      "next",
-      "last",
-      "this",
-      "now",
-      "ago",
-      "future",
-      "month",
-      "year",
-      "week",
-      "today",
-      "tomorrow",
-      "yesterday",
-    ])
-    .match("#Date+")
+    .dates()
     .out("json");
   return nlpResult;
 }
