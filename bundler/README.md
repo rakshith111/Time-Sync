@@ -16,6 +16,8 @@ npx webpack build --config compromise-webpack.config.js
 npx webpack build --config chrono-webpack.config.js
 ```
 
+Output files will be generated in the `dist` folder
+
 ```javascript
 // compromise-webpack.config.js
 const path = require("path");
