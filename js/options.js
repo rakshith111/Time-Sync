@@ -1,4 +1,19 @@
-document.getElementById('saveOptions').addEventListener('click', saveOptions);
+document.getElementById('addDomain').addEventListener('click', addDomain);
+document.getElementById('removeSelected').addEventListener('click', removeSelected);
+
+function addDomain() {
+  const domain = prompt('Enter a domain URL to add:');
+  if (domain) {
+    const disabledDomains = document.getElementById('disabledDomains');
+    disabledDomains.value += '\n' + domain.trim();
+  }
+}
+
+function removeSelected() {
+  const whitelist = document.getElementById('whitelistedWebsites');
+  const selectedItems = whitelist.querySelectorAll('li.selected');
+  selectedItems.forEach(item => item.remove());
+}
 
 function saveOptions() {
   const disabledDomains = document.getElementById('disabledDomains').value;
@@ -26,6 +41,7 @@ function refreshWhitelistedWebsites() {
         result.disabledDomains.forEach(domain => {
           const listItem = document.createElement('li');
           listItem.textContent = domain;
+          listItem.addEventListener('click', () => listItem.classList.toggle('selected'));
           whitelist.appendChild(listItem);
         });
       }
@@ -33,3 +49,4 @@ function refreshWhitelistedWebsites() {
 }
 
 document.addEventListener('DOMContentLoaded', restoreOptions);
+document.getElementById('saveOptions').addEventListener('click', saveOptions);
