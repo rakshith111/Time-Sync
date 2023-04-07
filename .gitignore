@@ -1,2 +1,4 @@
 Testing
-bundler
+bundler/node_modules
+bundler/package-lock.json
+bundler/package.json
