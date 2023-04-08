@@ -2,7 +2,7 @@
 
 ### INSTALLATION
 
-## Plugin is now available on Mozilla firefox addon. You can find it here [Time-Sync](https://addons.mozilla.org/en-US/firefox/addon/time-sync/)
+## Plugin is now available on Mozilla firefox addon!!. You can find it here [Time-Sync](https://addons.mozilla.org/en-US/firefox/addon/time-sync/)
 
 ### USAGE
 
@@ -14,6 +14,22 @@
             - Select any timezone from the list or search for it by typing in the search bar and double click to select it 
 - Select any text on the page and right click to convert it to local time, it will only convert if the text is a valid date
 - Hover over any text on the page to see the Original date.
+-------
+## Screenshots 
+![Screenshot_4](https://user-images.githubusercontent.com/36219488/230720230-3d9cb7c1-3cff-4af6-9cdf-80fb7cdc4d01.png)
+### Auto Converted page, one can hover over the converted, underlined date to see original text
+![Screenshot_5](https://user-images.githubusercontent.com/36219488/230720231-0002c1dc-e7b2-4f1b-be03-55d1d49a267f.png)
+### Here is a mail before converted in a different format
+![Screenshot_6](https://user-images.githubusercontent.com/36219488/230720233-75acb1d0-1ff9-4b60-b233-a85795e78f4a.png)
+### The text is selected and when you right click, a drop down menu with the option to "Convert Date and time" is available
+![Screenshot_7](https://user-images.githubusercontent.com/36219488/230720235-0e25d29d-33b8-416d-9f69-7a92539f35b9.png)
+### Upon converting , one can hover over to see the original text
+![Screenshot_8](https://user-images.githubusercontent.com/36219488/230720237-0bb36eb9-5892-46f8-af19-6a563a805873.png)
+### Minimalist Menu
+![Untitled](https://user-images.githubusercontent.com/36219488/230720318-6611b786-8d00-4611-bc71-9b1ab6dd3cbe.png)
+### Search feature to find non local timezone, can be selected by double clicking
+
+----------
 
 ### The auto script wont run on pages which are excluded in the manifest as they can affect browser's performance but manual mode is allowed, so select-> convert will work
 ### Currently available features
