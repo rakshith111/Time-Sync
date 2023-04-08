@@ -114,6 +114,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       currentTimezoneElement.textContent = `Current timezone: ${currentSelectedTimezone}`;
       searchAndSelect.style.display = "none";
       toggleText.textContent = "Local timezone";
+      // Save the selected timezone
+      await browser.storage.local.set({
+        selectedTimezone: currentSelectedTimezone,
+      });
 
       console.log("Toggled to User Time Zone:", currentSelectedTimezone);
     } else {
