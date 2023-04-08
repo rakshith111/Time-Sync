@@ -2,16 +2,7 @@
 
 ### INSTALLATION
 
-As of now, the plugin is not available on the Firefox Addons Store. You can install it by downloading the source code and loading it as a temporary addon.
-here's how you can do it:
-
-1. Download the source code from [here](https://github.com/rakshith111/Time-Sync/archive/refs/heads/main.zip)
-2. Extract the zip file
-3. Open Firefox and type `about:debugging` in the address bar
-4. Click on `This Firefox` in the left sidebar
-5. Click on `Load Temporary Add-on`
-6. Select any file in the extracted folder
-7. The plugin should be installed and ready to use
+## Plugin is now available on Mozilla firefox addon. You can find it here [Time-Sync](https://addons.mozilla.org/en-US/firefox/addon/time-sync/)
 
 ### USAGE
 
