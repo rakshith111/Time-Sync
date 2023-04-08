@@ -1,15 +1,19 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: rgb(13, 11, 11)/* Dark background color */
- 
+  background-image: url("../icons/abstract.jpg");/* Background image */
+  background-size: cover; /* Fit the image to the window */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  font-family: Poppins;
 }
+
 
 h1 {
   text-align: center;
   margin-top: 50px;
   font-size: 36px;
   color: #ffffff;
-  text-shadow: 2px 2px 4px rgba(255, 255, 255);
+  text-shadow: 2px 2px 5px rgb(140, 136, 136);
 }
 
 /* Disabled Websites Styles */
@@ -17,13 +21,12 @@ h1 {
   padding: 50px;
   margin: 20px auto;
   max-width: 550px;
-  /* From https://css.glass */
-background: rgba(255, 255, 255, 0.2);
-border-radius: 16px;
-box-shadow: 0 4px 30px rgba(255, 255, 255, 0.347);
-backdrop-filter: blur(5px);
--webkit-backdrop-filter: blur(5px);
-border: 3px solid rgba(255, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(255, 255, 255, 0.347);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 3px solid rgba(255, 255, 255, 0.3);
 }
 
 #disabledWebsitesContainer h3 {
@@ -43,66 +46,52 @@ border: 3px solid rgba(255, 255, 255, 0.3);
   width: 100%;
   padding: 10px;
   font-size: 16px;
-  border: 1px solid #5e2323;
+  border: 1px solid #ffffff;
   border-radius: 5px;
+  color: #ffffff;
   resize: vertical;
+  background-color: transparent;
+  font-family: Poppins;
 }
 
-#saveOptions {
-  display: block;
-  margin-top: 10px;
+.input-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-family: Poppins;
+}
+
+#domainsList {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+  resize: vertical;
+  background-color: transparent;
+  width: 500px; 
+  height: 200px;
+  color: #ffffff;
+  font-family: Poppins;
+}
+
+textarea {
+  flex: 1;
+  margin-right: 10px;
+}
+
+#addDomain, #removeSelected {
   padding: 10px;
   background-color: #000000;
   color: #fff;
-  border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 18px;
   transition: background-color 0.3s;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  box-shadow: 2px 2px 4px rgba(255, 255, 255, 0.3);
+  font-family: Poppins;
 }
 
-#saveOptions:hover {
-  background-color: #007acc;
-}
-
-/* Whitelisted Websites Styles */
-#whitelistedWebsites {
-  list-style: none;
-  margin: 20px auto;
-  padding: 0;
-  max-width: 500px;
-}
-
-#whitelistedWebsites li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-#whitelistedWebsites li span {
-  font-size: 18px;
-  color: #333;
-}
-
-#whitelistedWebsites li button {
-  padding: 10px;
-  background-color: #ff6666;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 18px;
-  transition: background-color 0.3s;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-#whitelistedWebsites li button:hover {
-  background-color: #ff4d4d;
+#addDomain:hover, #removeSelected:hover {
+  background-color: #242f39;
 }
