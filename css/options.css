@@ -43,15 +43,15 @@ h1 {
 
 #disabledDomains {
   margin-top: 10px;
-  width: 100%;
+  width: 380px;
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ffffff;
   border-radius: 5px;
   color: #ffffff;
-  resize: vertical;
   background-color: transparent;
   font-family: Poppins;
+  margin-right: 10px;
 }
 
 .input-group {
@@ -73,12 +73,9 @@ h1 {
   height: 200px;
   color: #ffffff;
   font-family: Poppins;
+  cursor: default;
 }
 
-textarea {
-  flex: 1;
-  margin-right: 10px;
-}
 
 #addDomain, #removeSelected {
   padding: 10px;
@@ -90,8 +87,14 @@ textarea {
   transition: background-color 0.3s;
   box-shadow: 2px 2px 4px rgba(255, 255, 255, 0.3);
   font-family: Poppins;
+  margin-top: 10px;
 }
 
 #addDomain:hover, #removeSelected:hover {
   background-color: #242f39;
+}
+
+li.selected {
+  background-color: #242f39;
+  border-radius: 5px;
 }
