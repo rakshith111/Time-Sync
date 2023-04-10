@@ -226,9 +226,11 @@ browser.runtime.onMessage.addListener(async (message) => {
       if (dateInTargetTimezone != "nope") {
         wrapSelectedTextWithHover(selectedText, dateInTargetTimezone);
       } else {
+        console.log("Failed to get the parsed date in the target timezone.");
         alert("Error: Unable to parse the selected date and time.");
       }
     } else {
+      console.log("Failed to parse the selected text: ", selectedText);
       alert("Error: Unable to parse the selected date and time.");
     }
   }
