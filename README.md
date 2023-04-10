@@ -16,6 +16,7 @@
       - If disabled, the plugin will convert any timezone to the selected timezone
             - Select any timezone from the list or search for it by typing in the search bar and double click to select it 
 - Hover over any text on the page to see the Original date.
+- Go to the `Options` page to add/remove domains to the whitelist to control whether the auto converter should run on the domain
 
 ----------
 
@@ -27,6 +28,7 @@
 - [x] List all timezones
 - [x] Search for timezone (Can double click to select)
 - [x] Parse any format, timezone and convert to local timezone and format
+- [ ] Whitelist/Blacklist pages in the options page
 <s>
 - [ ] Regex to parse any format <br>
 - [ ] Regex to parse any timezone <br>
@@ -37,7 +39,9 @@
 - [x] Auto convert date by default (Toggled)
 
 -------
-## Screenshots 
+
+<details><summary><h2>  Screenshots </h2> </summary>
+
 ![Screenshot_4](https://user-images.githubusercontent.com/36219488/230720230-3d9cb7c1-3cff-4af6-9cdf-80fb7cdc4d01.png)
 ### Auto Converted page, one can hover over the converted, underlined date to see original text
 ![Screenshot_5](https://user-images.githubusercontent.com/36219488/230720231-0002c1dc-e7b2-4f1b-be03-55d1d49a267f.png)
@@ -50,7 +54,11 @@
 ### Minimalist Menu
 ![Untitled](https://user-images.githubusercontent.com/36219488/230720318-6611b786-8d00-4611-bc71-9b1ab6dd3cbe.png)
 ### Search feature to find non local timezone, can be selected by double clicking
+![image](https://user-images.githubusercontent.com/36219488/230972644-64202a24-dfd4-475d-a93c-b613738c272a.png)
+### The plugin now allows users to add/remove domains to the whitelist
+</details>
 
+--------
 ### Features to be added
 
 - [ ] Choose any format (Toggled)
@@ -75,8 +83,12 @@
 - [x] The plugin also edits the `inline code` in StackOverflow, I'm working on a fix for this
 - [x] More testing is required to see how the nlp libraries work on different pages
 
-### ICONS USED
+#### Attributions
 
-<a href="https://www.flaticon.com/free-icons/working-hours" title="working hours icons">Working hours icons created by Maan Icons - Flaticon</a> <br>
-<br> <a href="https://www.iconfinder.com/icons/9071418/sun_icon"> Sun icon </a> by <a href="https://www.iconfinder.com/icon-park">Kmg Design </a> <br>
-<br> <a href="https://www.iconfinder.com/icons/9071456/moon_icon"> Moon icon </a> by <a href="https://www.iconfinder.com/icon-park">Kmg Design </a> <br>
+<a href="https://www.flaticon.com/free-icons/working-hours" title="working hours icons">Working hours icons created by Maan Icons - Flaticon</a> 
+<br> <a href="https://www.iconfinder.com/icons/9071418/sun_icon"> Sun icon </a> by <a href="https://www.iconfinder.com/icon-park">Kmg Design </a> 
+<br> <a href="https://www.iconfinder.com/icons/9071456/moon_icon"> Moon icon </a> by <a href="https://www.iconfinder.com/icon-park">Kmg Design </a>
+Wallpaper: [Smoke background texture black abstract design](https://www.freepik.com/free-photo/smoke-background-texture-black-abstract-design_17581044.htm#query=website%20background&position=13&from_view=search&track=ais) by rawpixel.com on Freepik <br>
+Settings Icons: [bejombah-icon](https://www.iconfinder.com/bejombah-icon) on Iconfinder <br>
+
+Special thanks to [@MAX-dev2020](https://github.com/MAX-dev2020) for contributing 
