@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Time-Sync",
-  "version": "1.0.4",
+  "version": "1.0.5",
 
   "description": "Convert dates and times to the user's preferred time zone and format",
   "permissions": ["activeTab", "storage", "<all_urls>", "contextMenus"],
