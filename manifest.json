@@ -121,5 +121,8 @@
         "js/content-manual.js"
       ]
     }
-  ]
+  ],
+  "options_ui": {
+    "page": "options.html"
+  }
 }

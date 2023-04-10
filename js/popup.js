@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const currentTimezoneElement = document.getElementById("currentTimezone");
   const searchBar = document.getElementById("searchBar");
   const timezoneSelect = document.getElementById("timezoneSelect");
-  const toggleButton = document.getElementById("toggleButton");
+  const toggleButton = document.getElementById("toggleButton");  
 
   const searchAndSelect = document.getElementById("searchAndDropdownContainer");
   const toggleText = document.getElementById("toggleText");
@@ -36,11 +36,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Handle the auto-date conversion toggle switch
   autoDateConvertToggle.addEventListener("change", async (event) => {
     const autoDateConvertState = event.target.checked;
-
     await browser.storage.local.set({ autoDateConvertState });
-    browser.tabs.sendMessage(tabs[0].id, {
-      command: "setTargetTimezone",
-      targetTimezone: currentSelectedTimezone,
+    browser.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
+      browser.tabs.sendMessage(tabs[0].id, {
+        command: "setTargetTimezone",
+        targetTimezone: currentSelectedTimezone,
+      });
     });
   });
 

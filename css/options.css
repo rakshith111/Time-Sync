@@ -1,0 +1,102 @@
+body {
+  font-family: Arial, sans-serif;
+  background-image: url("../icons/abstract.jpg");/* Background image */
+  background-size: cover; /* Fit the image to the window */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  font-family: Poppins;
+}
+
+
+h1 {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 36px;
+  color: #ffffff;
+  text-shadow: 2px 2px 5px rgb(140, 136, 136);
+}
+
+/* Disabled Websites Styles */
+#disabledWebsitesContainer {
+  padding: 50px;
+  margin: 20px auto;
+  max-width: 550px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(255, 255, 255, 0.347);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+#disabledWebsitesContainer h3 {
+  margin-top: 0;
+  font-size: 24px;
+  color: #ffffff;
+}
+
+#disabledWebsitesContainer p {
+  margin-top: 10px;
+  font-size: 18px;
+  color: #ffffff;
+}
+
+#disabledDomains {
+  margin-top: 10px;
+  width: 380px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+  color: #ffffff;
+  background-color: transparent;
+  font-family: Poppins;
+  margin-right: 10px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-family: Poppins;
+}
+
+#domainsList {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+  resize: vertical;
+  background-color: transparent;
+  width: 500px; 
+  color: #ffffff;
+  font-family: Poppins;
+  cursor: default;
+  max-height: 200px; /* Adjust this value based on your desired maximum height */
+  overflow-y: auto;
+  list-style-type: none;
+}
+
+
+#addDomain, #removeSelected {
+  padding: 10px;
+  background-color: #000000;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s;
+  box-shadow: 2px 2px 4px rgba(255, 255, 255, 0.3);
+  font-family: Poppins;
+  margin-top: 10px;
+}
+
+#addDomain:hover, #removeSelected:hover {
+  background-color: #242f39;
+}
+
+li.selected {
+  background-color: #242f39;
+  border-radius: 5px;
+}
