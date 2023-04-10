@@ -50,6 +50,12 @@ let targetTimezone;
   document.head.appendChild(style);
   console.log("Auto Content script loaded");
 })();
+function cssEscape(value) {
+  return value
+    .replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+    .replace(/\n/g, "\\A");
+}
+
 function getTextNodes(node) {
   const allNodes = [];
   const iterator = document.createNodeIterator(
@@ -77,7 +83,8 @@ function findPotentialDates(text) {
   return nlpResult;
 }
 function isAlreadyParsed(dateText) {
-  return !!document.querySelector(`[data-original="${dateText}"]`);
+  const escapedDateText = cssEscape(dateText);
+  return !!document.querySelector(`[data-original="${escapedDateText}"]`);
 }
 
 function createReplacedDateSpan(original, newText) {
@@ -123,9 +130,10 @@ async function findAndReplaceDates(targetTimezone) {
   }
 
   let chunkCount = 0;
+
   for (const chunk of chunks) {
     const potentialDates = findPotentialDates(chunk);
-    // console.log("Potential dates: ", potentialDates);
+
     for (const date of potentialDates) {
       if (date.text.length >= 10) {
         const original = date.text;
