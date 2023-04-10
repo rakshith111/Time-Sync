@@ -112,7 +112,7 @@ function getParsedDateInTargetTimezone(parsedResult) {
     return "nope";
   }
 }
-async function findAndReplaceDates() {
+async function findAndReplaceDates(targetTimezone) {
   const bodyTextContent = document.body.textContent;
 
   // Split the content into smaller chunks
@@ -122,6 +122,7 @@ async function findAndReplaceDates() {
     chunks.push(bodyTextContent.slice(i, i + chunkSize));
   }
 
+  let chunkCount = 0;
   for (const chunk of chunks) {
     const potentialDates = findPotentialDates(chunk);
     // console.log("Potential dates: ", potentialDates);
@@ -156,8 +157,12 @@ async function findAndReplaceDates() {
         }
       }
     }
+    chunkCount++;
+    console.log(`Chunk ${chunkCount} of ${chunks.length} parsed.`);
   }
+  console.log(`Total chunks parsed: ${chunkCount}`);
 }
+
 
 
 browser.runtime.onMessage.addListener(async (message) => {
