@@ -1,23 +1,25 @@
 let targetTimezone;
-(async function () {
-  const settings = await browser.storage.local.get(["autoDateConvertState"]);
-  targetTimezone = await browser.storage.local.get(["selectedTimezone"]);
-  if (targetTimezone.selectedTimezone === undefined) {
-    targetTimezone = moment.tz.guess();
-  } else {
-    targetTimezone = targetTimezone.selectedTimezone;
-  }
-  if (
-    settings.autoDateConvertState === undefined ||
-    settings.autoDateConvertState
-  ) {
-    console.log("Auto-date converter is enabled");
-    await findAndReplaceDates();
-  } else {
-    console.log("Auto-date converter is disabled");
-  }
-  const style = document.createElement("style");
-  style.textContent = `
+async function main(attempts = 0) {
+  try {
+    console.log("Attempt number: ", attempts);
+    const settings = await browser.storage.local.get(["autoDateConvertState"]);
+    targetTimezone = await browser.storage.local.get(["selectedTimezone"]);
+    if (targetTimezone.selectedTimezone === undefined) {
+      targetTimezone = moment.tz.guess();
+    } else {
+      targetTimezone = targetTimezone.selectedTimezone;
+    }
+    if (
+      settings.autoDateConvertState === undefined ||
+      settings.autoDateConvertState
+    ) {
+      console.log("Auto-date converter is enabled");
+      await findAndReplaceDates();
+    } else {
+      console.log("Auto-date converter is disabled");
+    }
+    const style = document.createElement("style");
+    style.textContent = `
   .replaced-date {
     text-decoration: underline;
     cursor: help;
@@ -47,9 +49,28 @@ let targetTimezone;
   }
 
 `;
-  document.head.appendChild(style);
-  console.log("Auto Content script loaded");
-})();
+    document.head.appendChild(style);
+    console.log("Auto Content script loaded");
+  } catch (error) {
+    console.error("An error occurred while running the extension:", error);
+
+    // Check if we should attempt to restart the extension.
+    const maxAttempts = 3; // Set the maximum number of restart attempts.
+    if (attempts < maxAttempts) {
+      console.log(
+        `Restarting the extension (attempt ${
+          attempts + 1
+        } of ${maxAttempts})...`
+      );
+      await main(attempts + 1);
+    } else {
+      console.error(
+        `The extension failed after ${maxAttempts} attempts. Giving up.`
+      );
+    }
+  }
+}
+main(1);
 function cssEscape(value) {
   return value
     .replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
@@ -170,8 +191,6 @@ async function findAndReplaceDates(targetTimezone) {
   }
   console.log(`Total chunks parsed: ${chunkCount}`);
 }
-
-
 
 browser.runtime.onMessage.addListener(async (message) => {
   if (message.command === "setTargetTimezone") {
