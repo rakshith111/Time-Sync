@@ -1,5 +1,28 @@
 let targetTimezone;
+
+async function getDisabledDomains() {
+  const result = await browser.storage.local.get('disabledDomains');
+  console.log("Disabled domains: ");
+  console.log(result);
+  return result.disabledDomains || [];
+}
+
+function isUrlInDisabledDomains(url, disabledDomains) {
+  const currentDomain = new URL(url).hostname;
+  const strippedCurrentDomain = currentDomain.replace(/^www\./, '');
+
+  console.log("Current domain: " + currentDomain);
+
+  return disabledDomains.some(domain => {
+    const strippedDomain = domain.replace(/^www\./, '');
+    return strippedDomain === strippedCurrentDomain;
+  });
+}
+
 (async function () {
+
+  const disabledDomains = await getDisabledDomains();
+  console.log(isUrlInDisabledDomains(window.location.href, disabledDomains))
   const settings = await browser.storage.local.get(["autoDateConvertState"]);
   targetTimezone = await browser.storage.local.get(["selectedTimezone"]);
   if (targetTimezone.selectedTimezone === undefined) {
@@ -7,9 +30,10 @@ let targetTimezone;
   } else {
     targetTimezone = targetTimezone.selectedTimezone;
   }
+
   if (
-    settings.autoDateConvertState === undefined ||
-    settings.autoDateConvertState
+    (settings.autoDateConvertState === undefined ||
+    settings.autoDateConvertState) && !isUrlInDisabledDomains(window.location.href, disabledDomains)
   ) {
     console.log("Auto-date converter is enabled");
     await findAndReplaceDates();
@@ -50,6 +74,7 @@ let targetTimezone;
   document.head.appendChild(style);
   console.log("Auto Content script loaded");
 })();
+
 function getTextNodes(node) {
   const allNodes = [];
   const iterator = document.createNodeIterator(

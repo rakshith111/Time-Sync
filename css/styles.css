@@ -142,3 +142,12 @@ select {
 #settingsIcon:hover {
   cursor: pointer;
 }
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+#settingsIcon {
+  margin-top: -10px; /* Adjust this value to change the distance above the title */
+}

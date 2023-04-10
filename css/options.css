@@ -70,10 +70,12 @@ h1 {
   resize: vertical;
   background-color: transparent;
   width: 500px; 
-  height: 200px;
   color: #ffffff;
   font-family: Poppins;
   cursor: default;
+  max-height: 200px; /* Adjust this value based on your desired maximum height */
+  overflow-y: auto;
+  list-style-type: none;
 }
 
 
