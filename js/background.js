@@ -1,4 +1,3 @@
-// background.js
 browser.runtime.onInstalled.addListener(() => {
   browser.contextMenus.create({
     id: "convert-date-time",
@@ -28,4 +27,3 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
     });
   }
 });
-
