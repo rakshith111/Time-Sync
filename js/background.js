@@ -17,7 +17,7 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
 
     // Only use the saved timezone if the toggleState is not false
     const currentSelectedTimezone =
-      settings.toggleState !== false
+      settings.toggleState === false || settings.toggleState === undefined
         ? settings.selectedTimezone || luxon.DateTime.local().zoneName
         : luxon.DateTime.local().zoneName;
 
