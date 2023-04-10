@@ -74,12 +74,9 @@ browser.runtime.onMessage.addListener(async (message) => {
       dateInTargetTimezone +=
         " (" + firstLettersCaps(rezoned.offsetNameLong) + ")";
       // Replace the selected text with the converted date and time
-
       wrapSelectedTextWithHover(selectedText, dateInTargetTimezone);
     } else {
       alert("Error: Unable to parse the selected date and time.");
     }
-  } else {
-    alert("Error: Unable to parse the selected date and time.");
   }
 });
