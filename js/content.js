@@ -112,39 +112,53 @@ function getParsedDateInTargetTimezone(parsedResult) {
     return "nope";
   }
 }
-async function findAndReplaceDates(targetTimezone) {
+async function findAndReplaceDates() {
   const bodyTextContent = document.body.textContent;
-  const potentialDates = findPotentialDates(bodyTextContent);
-  // console.log("Potential dates: ", potentialDates);
-  for (const date of potentialDates) {
-    if (date.text.length >= 10) {
-      const original = date.text;
 
-      if (isAlreadyParsed(original)) {
-        console.log("Already parsed: ", original);
-        continue;
-      }
+  // Split the content into smaller chunks
+  const chunkSize = 5000; // Adjust this value based on performance
+  const chunks = [];
+  for (let i = 0; i < bodyTextContent.length; i += chunkSize) {
+    chunks.push(bodyTextContent.slice(i, i + chunkSize));
+  }
 
-      const parsedDateInTargetTimezone =
-        getParsedDateInTargetTimezone(original);
-      if (parsedDateInTargetTimezone != "nope") {
-        const newText = `${parsedDateInTargetTimezone}`;
+  for (const chunk of chunks) {
+    const potentialDates = findPotentialDates(chunk);
+    // console.log("Potential dates: ", potentialDates);
+    for (const date of potentialDates) {
+      if (date.text.length >= 10) {
+        const original = date.text;
 
-        const textNodes = getTextNodes(document.body);
-        for (const node of textNodes) {
-          if (node.textContent.includes(original)) {
-            const newNodeValue = node.textContent.replace(original, "");
-            const replacedDateSpan = createReplacedDateSpan(original, newText);
-            node.parentNode.insertBefore(replacedDateSpan, node.nextSibling);
-            node.textContent = newNodeValue;
-          }
+        if (isAlreadyParsed(original)) {
+          console.log("Already parsed: ", original);
+          continue;
         }
-      } else {
-        console.log("Unable to parse date: ", original);
+
+        const parsedDateInTargetTimezone =
+          getParsedDateInTargetTimezone(original);
+        if (parsedDateInTargetTimezone != "nope") {
+          const newText = `${parsedDateInTargetTimezone}`;
+
+          const textNodes = getTextNodes(document.body);
+          for (const node of textNodes) {
+            if (node.textContent.includes(original)) {
+              const newNodeValue = node.textContent.replace(original, "");
+              const replacedDateSpan = createReplacedDateSpan(
+                original,
+                newText
+              );
+              node.parentNode.insertBefore(replacedDateSpan, node.nextSibling);
+              node.textContent = newNodeValue;
+            }
+          }
+        } else {
+          console.log("Unable to parse date: ", original);
+        }
       }
     }
   }
 }
+
 
 browser.runtime.onMessage.addListener(async (message) => {
   if (message.command === "setTargetTimezone") {
