@@ -16,7 +16,7 @@ function isUrlInDisabledDomains(url, disabledDomains) {
 
 async function main(attempts = 0) {
   try {
-    console.log("Attempt number: ", attempts);
+    console.log("[a] Attempt number: ", attempts);
     const disabledDomains = await getDisabledDomains();
     const settings = await browser.storage.local.get(["autoDateConvertState"]);
     targetTimezone = await browser.storage.local.get(["selectedTimezone"]);
@@ -31,10 +31,10 @@ async function main(attempts = 0) {
         settings.autoDateConvertState) &&
       !isUrlInDisabledDomains(window.location.href, disabledDomains)
     ) {
-      console.log("Auto-date converter is enabled");
+      console.log("[a] Auto-date converter is enabled");
       await findAndReplaceDates();
     } else {
-      console.log("Auto-date converter is disabled");
+      console.log("[a] Auto-date converter is disabled");
     }
     const style = document.createElement("style");
     style.textContent = `
@@ -68,7 +68,7 @@ async function main(attempts = 0) {
 
   `;
     document.head.appendChild(style);
-    console.log("Auto Content script loaded");
+    console.log("[a] Auto Content script loaded");
   } catch (error) {
     console.error("An error occurred while running the extension:", error);
 
@@ -151,14 +151,14 @@ function getParsedDateInTargetTimezone(parsedResult) {
     .format("MMMM D,dddd, YYYY, h:mm a Z");
   if (moment(parsedDate).isValid()) {
     parsedDate += " (" + firstLettersCaps(rezoned.offsetNameLong) + ")";
-    console.log("Parsed date: ", parsedDate);
+    console.log("[a] Parsed date: ", parsedDate);
     return parsedDate;
   } else {
-    console.log("Parsed date is not valid");
+    console.log("[a] Parsed date is not valid");
     return "nope";
   }
 }
-async function findAndReplaceDates(targetTimezone) {
+async function findAndReplaceDates() {
   const bodyTextContent = document.body.textContent;
 
   // Split the content into smaller chunks
@@ -178,7 +178,7 @@ async function findAndReplaceDates(targetTimezone) {
         const original = date.text;
 
         if (isAlreadyParsed(original)) {
-          console.log("Already parsed: ", original);
+          console.log("[a] Already parsed: ", original);
           continue;
         }
 
@@ -200,26 +200,51 @@ async function findAndReplaceDates(targetTimezone) {
             }
           }
         } else {
-          console.log("Unable to parse date: ", original);
+          console.log("[a] Unable to parse date: ", original);
         }
       }
     }
     chunkCount++;
-    console.log(`Chunk ${chunkCount} of ${chunks.length} parsed.`);
+    console.log(`[a]Chunk ${chunkCount} of ${chunks.length} parsed.`);
   }
-  console.log(`Total chunks parsed: ${chunkCount}`);
+  console.log(`[a]Total chunks parsed: ${chunkCount}`);
 }
 
 browser.runtime.onMessage.addListener(async (message) => {
   if (message.command === "setTargetTimezone") {
     targetTimezone = message.targetTimezone;
-    console.log("Received target timezone: ", targetTimezone);
+    console.log("[a] Received target timezone: ", targetTimezone);
     await findAndReplaceDates();
   }
   if (message.command === "convertDateTime") {
-    console.log("Received message from background script: ", message);
+    console.log("[a] Received message from background script: ", message);
     const selectedText = message.text;
+    targetTimezone = message.targetTimezone;
     const parsedResult = chrono.chrono.parse(selectedText);
+    var local = luxon.DateTime.local();
+    var rezoned = local.setZone(targetTimezone, { keepLocalTime: true });
+
+    if (parsedResult.length > 0) {
+      const parsedDate = parsedResult[0].start.date();
+      const dateInTargetTimezone = getParsedDateInTargetTimezone(parsedDate);
+      if (dateInTargetTimezone != "nope") {
+        wrapSelectedTextWithHover(selectedText, dateInTargetTimezone);
+      } else {
+        console.log("Failed to get the parsed date in the target timezone.");
+        alert("Error: Unable to parse the selected date and time.");
+      }
+    } else {
+      console.log("Failed to parse the selected text: ", selectedText);
+      alert("Error: Unable to parse the selected date and time.");
+    }
+  }
+  if (message.command === "manualConvertDateTime") {
+    // Add this new if block
+    console.log("[a] Received message from background script: ", message);
+    const selectedText = message.text;
+    targetTimezone = message.targetTimezone;
+    const parsedResult = chrono.chrono.parse(selectedText);
+
     if (parsedResult.length > 0) {
       const parsedDate = parsedResult[0].start.date();
       const dateInTargetTimezone = getParsedDateInTargetTimezone(parsedDate);
