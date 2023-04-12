@@ -30,7 +30,7 @@
   }
 `;
   document.head.appendChild(style);
-  console.log("Manual Content script loaded");
+  console.log("[m] Manual Content script loaded");
 })();
 function firstLettersCaps(input) {
   // Return the first letter of each word in a string in uppercase For getting the timezone name in the format "PDT (Pacific Daylight Time)"
@@ -56,10 +56,14 @@ function wrapSelectedTextWithHover(original, newText) {
 }
 
 browser.runtime.onMessage.addListener(async (message) => {
-  if (message.command === "convertDateTime") {
-    console.log("Received message from background script: ", message);
-    const selectedText = message.text;
+  if (message.command === "setTargetTimezone") {
     const targetTimezone = message.targetTimezone;
+    console.log("[m]  Received target timezone: ", targetTimezone);
+  }
+  if (message.command === "convertDateTime") {
+    console.log("[m] Received message from background script: ", message);
+    const selectedText = message.text;
+    targetTimezone = message.targetTimezone;
     const parsedResult = chrono.chrono.parse(selectedText);
     var local = luxon.DateTime.local();
     var rezoned = local.setZone(targetTimezone, { keepLocalTime: true });
