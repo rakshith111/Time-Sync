@@ -230,11 +230,11 @@ browser.runtime.onMessage.addListener(async (message) => {
       if (dateInTargetTimezone != "nope") {
         wrapSelectedTextWithHover(selectedText, dateInTargetTimezone);
       } else {
-        console.log("Failed to get the parsed date in the target timezone.");
+        console.log("[a] Failed to get the parsed date in the target timezone.");
         alert("Error: Unable to parse the selected date and time.");
       }
     } else {
-      console.log("Failed to parse the selected text: ", selectedText);
+      console.log("[a] Failed to parse the selected text: ", selectedText);
       alert("Error: Unable to parse the selected date and time.");
     }
   }
@@ -251,11 +251,11 @@ browser.runtime.onMessage.addListener(async (message) => {
       if (dateInTargetTimezone != "nope") {
         wrapSelectedTextWithHover(selectedText, dateInTargetTimezone);
       } else {
-        console.log("Failed to get the parsed date in the target timezone.");
+        console.log("[a] Failed to get the parsed date in the target timezone.");
         alert("Error: Unable to parse the selected date and time.");
       }
     } else {
-      console.log("Failed to parse the selected text: ", selectedText);
+      console.log("[a] Failed to parse the selected text: ", selectedText);
       alert("Error: Unable to parse the selected date and time.");
     }
   }
