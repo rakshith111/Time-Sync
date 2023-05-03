@@ -28,7 +28,7 @@
 - [x] List all timezones
 - [x] Search for timezone (Can double click to select)
 - [x] Parse any format, timezone and convert to local timezone and format
-- [ ] Whitelist/Blacklist pages in the options page
+- [x] Whitelist/Blacklist pages in the options page
 <s>
 - [ ] Regex to parse any format <br>
 - [ ] Regex to parse any timezone <br>
