@@ -1,5 +1,5 @@
 ## A FireFox Plugin to Automatically Convert any timezone/format on page to Local time
-
+#### Most of the code was generated using GPT-4 
 ### INSTALLATION
 
 ## Plugin is now available on Mozilla firefox addon!!. <br> You can find it here 
